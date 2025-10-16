@@ -8,6 +8,7 @@
     --paper-white: #FDFDFD; 
     --boy-color: #79A6D2; 
     --girl-color: #F8BBD0; 
+    --social-color: #6c757d; /* Colore per i pulsanti social */
 }
 
 /* Stile base */
@@ -17,12 +18,13 @@ body {
     font-family: 'Playfair Display', serif; 
     display: flex;
     justify-content: center;
-    align-items: center;
+    /* IMPORTANTE: Allineato in alto per lasciare spazio sopra e sotto il contenuto, ma consentire lo scroll */
+    align-items: center; 
     min-height: 100vh;
     margin: 0;
     padding: 20px;
     box-sizing: border-box;
-    overflow-x: hidden; /* Prevenire scroll orizzontale */
+    overflow-x: hidden; 
 }
 
 .gold-text { color: var(--gold); }
@@ -37,8 +39,9 @@ body {
 #envelope-container {
     width: 90%;
     max-width: 500px;
-    min-height: 550px; /* Aumentato per accogliere l'animazione e il countdown */
-    background-color: transparent; /* Il contenuto sarà visibile sopra lo sfondo */
+    /* CORREZIONE 1: Aumentato un po' e fissato per l'animazione */
+    min-height: 600px; 
+    background-color: transparent; 
     border: none;
     padding: 0;
     text-align: center;
@@ -84,7 +87,7 @@ body {
     height: 0;
     border-style: solid;
     border-width: 150px 250px 0 250px;
-    border-color: #f0f0f0 transparent transparent transparent; /* Lembo colore leggero */
+    border-color: #f0f0f0 transparent transparent transparent; 
     z-index: 102;
     cursor: pointer;
     transition: transform 0.8s, border-width 0.8s;
@@ -132,13 +135,14 @@ body {
     border: 1px solid var(--gold); 
     border-radius: 5px; 
     padding: 40px;
-    /* Assicurati che il contenuto sia sempre visibile */
     position: absolute; 
     top: 0;
     left: 0;
     width: 100%;
+    /* CORREZIONE 2: Questo abilita lo scroll all'interno della busta su mobile */
+    height: 100%; /* Copre l'altezza fissa di envelope-container */
+    overflow-y: auto; /* Permette lo scroll verticale solo se necessario */
     box-sizing: border-box;
-    /* Nasconde il contenuto finché la busta non si apre */
     opacity: 0; 
     transform: translateY(20px); 
     transition: opacity 0.6s 0.2s, transform 0.6s 0.2s;
@@ -181,7 +185,7 @@ body {
 
 .buttons-circle-container {
     display: flex;
-    justify-content: space-around; /* Spazia uniformemente i pulsanti */
+    justify-content: space-around; 
     align-items: flex-end;
     margin: 30px auto;
     max-width: 400px;
@@ -193,9 +197,9 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 80px; /* Larghezza del cerchio */
-    height: 80px; /* Altezza del cerchio */
-    border-radius: 50%; /* <--- PULSANTE CERCHIO */
+    width: 80px; 
+    height: 80px; 
+    border-radius: 50%; 
     border: 2px solid var(--gold); 
     color: var(--gold);
     background-color: transparent;
@@ -225,7 +229,7 @@ body {
     font-size: 0.7em;
     margin-top: 5px;
     font-weight: 600;
-    color: var(--black-text); /* Testo base nero */
+    color: var(--black-text); 
 }
 .circle-button:hover .button-text {
     color: var(--paper-white);
@@ -233,7 +237,7 @@ body {
 
 /* Stile speciale per RSVP (Conferma presenza) */
 .circle-button.whatsapp-confirm {
-    border-color: var(--boy-color); /* o --girl-color */
+    border-color: var(--boy-color); 
     color: var(--boy-color);
 }
 .circle-button.whatsapp-confirm:hover {
@@ -246,7 +250,7 @@ body {
 }
 
 /* ------------------------------------- */
-/* DECORAZIONI PER SESSO (Modello B) */
+/* DECORAZIONI PER SESSO */
 /* ------------------------------------- */
 
 .decorations {
@@ -276,7 +280,7 @@ body {
 #open-state.girl .whatsapp-confirm:hover { background-color: var(--girl-color); }
 
 /* ------------------------------------- */
-/* COUNTDOWN (Stile per Modello B) */
+/* COUNTDOWN */
 /* ------------------------------------- */
 #countdown-container {
     margin-top: 30px;
@@ -300,7 +304,7 @@ body {
 }
 
 /* ------------------------------------- */
-/* PULSANTI SOCIAL (Mantenuti dal Modello A) */
+/* PULSANTI SOCIAL (CORREZIONE 3: Stili aggiornati per essere più coerenti) */
 /* ------------------------------------- */
 .buttons-container {
     display: flex;
@@ -313,17 +317,51 @@ body {
     justify-content: center;
     flex-wrap: wrap;
     margin-top: 10px;
+    gap: 10px;
 }
+
 .social-buttons .action-button {
-    padding: 10px 15px;
-    font-size: 0.9em;
+    /* CORREZIONE: Stile più compatto e meno invadente, usando il colore social */
+    padding: 8px 12px;
+    font-size: 0.8em;
+    border-radius: 5px; 
+    border: 1px solid var(--social-color); 
+    color: var(--social-color);
+    background-color: transparent;
+    transition: background-color 0.3s, color 0.3s;
+    text-decoration: none;
+    display: inline-block;
+    white-space: nowrap; /* Mantiene il testo su una riga */
 }
+.social-buttons .action-button:hover {
+    background-color: var(--social-color);
+    color: var(--paper-white);
+}
+
+/* Rimuove lo stile base e non specifico dell'action-button se esistente */
 .action-button {
     text-decoration: none;
-    color: var(--gold);
-    background-color: transparent; 
-    border-radius: 50px; 
-    border: 2px solid var(--gold); 
     display: inline-block;
 }
-/* Altri stili action-button... */
+
+/* ------------------------------------- */
+/* MEDIA QUERY (Mobile) */
+/* ------------------------------------- */
+
+@media (max-width: 600px) {
+    /* Riduci il padding generale su schermi più piccoli */
+    #open-state {
+        padding: 30px 15px; 
+    }
+    /* Riduci la dimensione dei pulsanti cerchio su mobile */
+    .buttons-circle-container {
+        gap: 10px; 
+    }
+    .circle-button {
+        width: 70px; 
+        height: 70px;
+    }
+    .button-icon {
+        font-size: 1.4em;
+    }
+}
